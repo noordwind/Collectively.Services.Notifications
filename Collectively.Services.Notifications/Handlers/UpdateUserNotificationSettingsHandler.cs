@@ -1,13 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using System.Threading.Tasks;
 using Collectively.Common.Services;
-using Collectively.Common.Types;
 using Collectively.Messages.Commands;
 using Collectively.Messages.Commands.Notifications;
 using Collectively.Messages.Events.Notifications;
-using Collectively.Services.Notifications.Domain;
-using Collectively.Services.Notifications.Repositories;
+using Collectively.Services.Notifications.Services;
 using RawRabbit;
 
 namespace Collectively.Services.Notifications.Handlers
@@ -16,18 +12,15 @@ namespace Collectively.Services.Notifications.Handlers
     {
         private readonly IHandler _handler;
         private readonly IBusClient _bus;
-        private readonly IMapper _mapper;
-        private readonly IUserNotificationSettingsRepository _settingsRepository;
+        private readonly IUserNotificationSettingsService _settingsService;
 
         public UpdateUserNotificationSettingsHandler(IHandler handler,
             IBusClient bus,
-            IMapper mapper,
-            IUserNotificationSettingsRepository settingsRepository)
+            IUserNotificationSettingsService settingsService)
         {
             _handler = handler;
             _bus = bus;
-            _mapper = mapper;
-            _settingsRepository = settingsRepository;
+            _settingsService = settingsService;
         }
 
         public async Task HandleAsync(UpdateUserNotificationSettings command)
@@ -35,20 +28,7 @@ namespace Collectively.Services.Notifications.Handlers
             await _handler
                 .Run(async () =>
                 {
-                    var settings = await _settingsRepository.GetByIdAsync(command.UserId);
-                    if (settings.HasNoValue)
-                    {
-                        settings = _mapper.Map<UserNotificationSettings>(command);
-                        await _settingsRepository.AddAsync(settings.Value);
-                    }
-                    else
-                    {
-                        settings.Value.EmailSettings = _mapper
-                            .Map<NotificationSettings>(command.EmailSettings);
-                        settings.Value.PushSettings = _mapper
-                            .Map<NotificationSettings>(command.PushSettings);
-                        await _settingsRepository.EditAsync(settings.Value);
-                    }
+                    await _settingsService.UpdateSettingsAsync(command);
                 })
                 .OnSuccess(async () =>
                 {

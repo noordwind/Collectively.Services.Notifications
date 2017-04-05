@@ -15,12 +15,11 @@ namespace Collectively.Services.Notifications.Repositories.Queries
             (this IMongoCollection<RemarkSubscribers> collection, Guid remarkId)
             => await collection.FirstOrDefaultAsync(x => x.RemarkId == remarkId);
 
-        public static async Task AddAsync
+        public static async Task AddOrUpdateAsync
             (this IMongoCollection<RemarkSubscribers> collection, RemarkSubscribers subscribers)
-            => await collection.InsertOneAsync(subscribers);
-
-        public static async Task EditAsync
-            (this IMongoCollection<RemarkSubscribers> collection, RemarkSubscribers subscribers)
-            => await collection.ReplaceOneAsync(x => x.RemarkId == subscribers.RemarkId, subscribers);
+            => await collection.ReplaceOneAsync(x => x.RemarkId == subscribers.RemarkId, subscribers, new UpdateOptions
+            {
+                IsUpsert = true
+            });
     }
 }

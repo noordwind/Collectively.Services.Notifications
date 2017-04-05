@@ -1,5 +1,6 @@
 ﻿using Collectively.Common.Host;
 using Collectively.Messages.Commands.Notifications;
+using Collectively.Messages.Events.Remarks;
 using Collectively.Services.Notifications.Framework;
 
 namespace Collectively.Services.Notifications
@@ -13,6 +14,14 @@ namespace Collectively.Services.Notifications
                 .UseAutofac(Bootstrapper.LifetimeScope)
                 .UseRabbitMq(queueName: typeof(Program).Namespace)
                 .SubscribeToCommand<UpdateUserNotificationSettings>()
+                .SubscribeToEvent<RemarkCreated>()
+                .SubscribeToEvent<RemarkCanceled>()
+                .SubscribeToEvent<RemarkDeleted>()
+                .SubscribeToEvent<RemarkProcessed>()
+                .SubscribeToEvent<RemarkRenewed>()
+                .SubscribeToEvent<RemarkResolved>()
+                .SubscribeToEvent<PhotosToRemarkAdded>()
+                .SubscribeToEvent<CommentAddedToRemark>()
                 .Build()
                 .Run();
         }

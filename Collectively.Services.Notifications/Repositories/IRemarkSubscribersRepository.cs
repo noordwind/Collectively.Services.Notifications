@@ -8,7 +8,6 @@ namespace Collectively.Services.Notifications.Repositories
     public interface IRemarkSubscribersRepository
     {
         Task<Maybe<RemarkSubscribers>> GetByIdAsync(Guid remarkId);
-        Task AddAsync(RemarkSubscribers subscribers);
-        Task EditAsync(RemarkSubscribers subscribers);
+        Task AddOrUpdateAsync(RemarkSubscribers subscribers);
     }
 }

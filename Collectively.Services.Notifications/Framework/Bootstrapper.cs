@@ -12,6 +12,7 @@ using Collectively.Common.Services;
 using Collectively.Messages.Commands;
 using Collectively.Messages.Events;
 using Collectively.Services.Notifications.Repositories;
+using Collectively.Services.Notifications.Services;
 using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -62,6 +63,10 @@ namespace Collectively.Services.Notifications.Framework
 
                 builder.RegisterType<UserNotificationSettingsRepository>().As<IUserNotificationSettingsRepository>();
                 builder.RegisterType<RemarkSubscribersRepository>().As<IRemarkSubscribersRepository>();
+
+                builder.RegisterType<NotificationService>().As<INotificationService>();
+                builder.RegisterType<RemarkSubscribersService>().As<IRemarkSubscribersService>();
+                builder.RegisterType<UserNotificationSettingsService>().As<IUserNotificationSettingsService>();
 
                 var assembly = typeof(Startup).GetTypeInfo().Assembly;
                 builder.RegisterAssemblyTypes(assembly).AsClosedTypesOf(typeof(IEventHandler<>));
