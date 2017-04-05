@@ -1,4 +1,5 @@
 ﻿using Collectively.Common.Host;
+using Collectively.Messages.Commands.Notifications;
 using Collectively.Services.Notifications.Framework;
 
 namespace Collectively.Services.Notifications
@@ -11,6 +12,7 @@ namespace Collectively.Services.Notifications
                 .Create<Startup>(port: 10007)
                 .UseAutofac(Bootstrapper.LifetimeScope)
                 .UseRabbitMq(queueName: typeof(Program).Namespace)
+                .SubscribeToCommand<UpdateUserNotificationSettings>()
                 .Build()
                 .Run();
         }

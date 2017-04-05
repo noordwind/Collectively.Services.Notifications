@@ -55,6 +55,7 @@ namespace Collectively.Services.Notifications.Framework
                 builder.RegisterInstance(_configuration.GetSettings<ExceptionlessSettings>()).SingleInstance();
                 builder.RegisterType<ExceptionlessExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 builder.RegisterType<Handler>().As<IHandler>();
+                builder.RegisterInstance(AutoMapperConfig.InitializeMapper());
                 builder.RegisterInstance(_configuration.GetSettings<MongoDbSettings>()).SingleInstance();
                 builder.RegisterModule<MongoDbModule>();
                 builder.RegisterType<MongoDbInitializer>().As<IDatabaseInitializer>();

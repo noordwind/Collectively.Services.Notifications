@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Repositories.Queries;
@@ -16,7 +15,7 @@ namespace Collectively.Services.Notifications.Repositories
             _database = database;
         }
 
-        public async Task<Maybe<UserNotificationSettings>> GetByIdAsync(Guid userId)
+        public async Task<Maybe<UserNotificationSettings>> GetByIdAsync(string userId)
             => await _database.UserNotificationSettings().GetByIdAsync(userId);
 
         public async Task AddAsync(UserNotificationSettings settings)

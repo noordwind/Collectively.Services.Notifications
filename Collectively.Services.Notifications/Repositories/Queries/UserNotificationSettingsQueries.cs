@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Collectively.Common.Extensions;
 using Collectively.Common.Mongo;
 using Collectively.Services.Notifications.Domain;
@@ -14,9 +13,9 @@ namespace Collectively.Services.Notifications.Repositories.Queries
             => database.GetCollection<UserNotificationSettings>();
 
         public static async Task<UserNotificationSettings> GetByIdAsync(
-            this IMongoCollection<UserNotificationSettings> collection, Guid userId)
+            this IMongoCollection<UserNotificationSettings> collection, string userId)
         {
-            if (userId.IsEmpty())
+            if (userId.Empty())
                 return null;
 
             return await collection.AsQueryable().FirstOrDefaultAsync(x => x.UserId == userId);
