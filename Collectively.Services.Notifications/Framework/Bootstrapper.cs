@@ -4,12 +4,14 @@ using System.Reflection;
 using Autofac;
 using Collectively.Common.Exceptionless;
 using Collectively.Common.Extensions;
+using Collectively.Common.Mongo;
 using Collectively.Common.Nancy;
 using Collectively.Common.RabbitMq;
 using Collectively.Common.Security;
 using Collectively.Common.Services;
 using Collectively.Messages.Commands;
 using Collectively.Messages.Events;
+using Collectively.Services.Notifications.Repositories;
 using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -53,6 +55,12 @@ namespace Collectively.Services.Notifications.Framework
                 builder.RegisterInstance(_configuration.GetSettings<ExceptionlessSettings>()).SingleInstance();
                 builder.RegisterType<ExceptionlessExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 builder.RegisterType<Handler>().As<IHandler>();
+                builder.RegisterInstance(_configuration.GetSettings<MongoDbSettings>()).SingleInstance();
+                builder.RegisterModule<MongoDbModule>();
+                builder.RegisterType<MongoDbInitializer>().As<IDatabaseInitializer>();
+
+                builder.RegisterType<UserNotificationSettingsRepository>().As<IUserNotificationSettingsRepository>();
+                builder.RegisterType<RemarkSubscribersRepository>().As<IRemarkSubscribersRepository>();
 
                 var assembly = typeof(Startup).GetTypeInfo().Assembly;
                 builder.RegisterAssemblyTypes(assembly).AsClosedTypesOf(typeof(IEventHandler<>));
@@ -76,6 +84,8 @@ namespace Collectively.Services.Notifications.Framework
 
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
+            var databaseInitializer = container.Resolve<IDatabaseInitializer>();
+            databaseInitializer.InitializeAsync();
             pipelines.BeforeRequest += (ctx) =>
             {
                 FixNumberFormat(ctx);

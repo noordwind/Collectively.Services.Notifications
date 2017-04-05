@@ -1,20 +1,21 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Collectively.Common.Domain;
 
 namespace Collectively.Services.Notifications.Domain
 {
     public class RemarkSubscribers : IdentifiableEntity
     {
-        public string RemarkId { get; protected set; }
-        public IList<string> Users { get; protected set; }
+        public Guid RemarkId { get; protected set; }
+        public ISet<Guid> Users { get; protected set; }
 
-        public RemarkSubscribers(string remarkId)
+        public RemarkSubscribers(Guid remarkId)
         {
             RemarkId = remarkId;
-            Users = new List<string>();
+            Users = new HashSet<Guid>();
         }
 
-        public void AddSubscriber(string userId)
+        public void AddSubscriber(Guid userId)
         {
             Users.Add(userId);
         }
