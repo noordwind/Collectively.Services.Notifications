@@ -8,9 +8,11 @@ using Collectively.Common.Mongo;
 using Collectively.Common.Nancy;
 using Collectively.Common.RabbitMq;
 using Collectively.Common.Security;
+using Collectively.Common.ServiceClients;
 using Collectively.Common.Services;
 using Collectively.Messages.Commands;
 using Collectively.Messages.Events;
+using Collectively.Services.Notifications.Framework.IoC;
 using Collectively.Services.Notifications.Repositories;
 using Collectively.Services.Notifications.Services;
 using Microsoft.Extensions.Configuration;
@@ -60,6 +62,8 @@ namespace Collectively.Services.Notifications.Framework
                 builder.RegisterInstance(_configuration.GetSettings<MongoDbSettings>()).SingleInstance();
                 builder.RegisterModule<MongoDbModule>();
                 builder.RegisterType<MongoDbInitializer>().As<IDatabaseInitializer>();
+                builder.RegisterModule<ServiceClientModule>();
+                builder.RegisterModule<ServiceClientsModule>();
 
                 builder.RegisterType<UserNotificationSettingsRepository>().As<IUserNotificationSettingsRepository>();
                 builder.RegisterType<RemarkSubscribersRepository>().As<IRemarkSubscribersRepository>();
