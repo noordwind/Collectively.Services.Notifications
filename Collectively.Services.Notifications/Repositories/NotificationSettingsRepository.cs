@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Repositories.Queries;
@@ -15,13 +16,16 @@ namespace Collectively.Services.Notifications.Repositories
             _database = database;
         }
 
-        public async Task<Maybe<UserNotificationSettings>> GetByIdAsync(string userId)
+        public async Task<IEnumerable<User>> BrowseByIdsAsync(IEnumerable<string> userIds)
+            => await _database.UserNotificationSettings().BrowseByIdsAsync(userIds);
+
+        public async Task<Maybe<User>> GetByIdAsync(string userId)
             => await _database.UserNotificationSettings().GetByIdAsync(userId);
 
-        public async Task AddAsync(UserNotificationSettings settings)
+        public async Task AddAsync(User settings)
             => await _database.UserNotificationSettings().AddAsync(settings);
 
-        public async Task EditAsync(UserNotificationSettings settings)
+        public async Task EditAsync(User settings)
             => await _database.UserNotificationSettings().EditAsync(settings);
 
     }

@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Collectively.Common.Extensions;
 using Collectively.Common.Mongo;
 using Collectively.Services.Notifications.Domain;
@@ -9,11 +11,26 @@ namespace Collectively.Services.Notifications.Repositories.Queries
 {
     public static class UserNotificationSettingsQueries
     {
-        public static IMongoCollection<UserNotificationSettings> UserNotificationSettings(this IMongoDatabase database)
-            => database.GetCollection<UserNotificationSettings>();
+        public static IMongoCollection<User> UserNotificationSettings(this IMongoDatabase database)
+            => database.GetCollection<User>();
 
-        public static async Task<UserNotificationSettings> GetByIdAsync(
-            this IMongoCollection<UserNotificationSettings> collection, string userId)
+        public static async Task<IEnumerable<User>> BrowseByIdsAsync(
+            this IMongoCollection<User> collection, IEnumerable<string> userIds)
+        {
+            if (userIds == null)
+                return Enumerable.Empty<User>();
+
+            var enumerable = userIds as string[] ?? userIds.ToArray();
+            if (enumerable.Any() == false)
+                return Enumerable.Empty<User>();
+
+            return await collection.AsQueryable()
+                .Where(x => enumerable.Contains(x.UserId))
+                .ToListAsync();
+        }
+
+        public static async Task<User> GetByIdAsync(
+            this IMongoCollection<User> collection, string userId)
         {
             if (userId.Empty())
                 return null;
@@ -22,11 +39,11 @@ namespace Collectively.Services.Notifications.Repositories.Queries
         }
 
         public static async Task AddAsync(
-            this IMongoCollection<UserNotificationSettings> collection, UserNotificationSettings settings)
+            this IMongoCollection<User> collection, User settings)
             => await collection.InsertOneAsync(settings);
 
         public static async Task EditAsync(
-            this IMongoCollection<UserNotificationSettings> collection, UserNotificationSettings settings)
+            this IMongoCollection<User> collection, User settings)
             => await collection.ReplaceOneAsync(x => x.UserId == settings.UserId, settings);
     }
 }

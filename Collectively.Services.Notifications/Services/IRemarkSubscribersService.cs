@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Repositories;
 
@@ -8,6 +9,7 @@ namespace Collectively.Services.Notifications.Services
     public interface IRemarkSubscribersService
     {
         Task AddSubscriberAsync(Guid remarkId, string userId);
+        Task<Maybe<RemarkSubscribers>> GetSubscribersAsync(Guid remarkId);
     }
 
     public class RemarkSubscribersService : IRemarkSubscribersService
@@ -29,5 +31,8 @@ namespace Collectively.Services.Notifications.Services
             subsribers.Value.AddSubscriber(userId);
             await _repository.AddOrUpdateAsync(subsribers.Value);
         }
+
+        public async Task<Maybe<RemarkSubscribers>> GetSubscribersAsync(Guid remarkId)
+            => await _repository.GetByIdAsync(remarkId);
     }
 }

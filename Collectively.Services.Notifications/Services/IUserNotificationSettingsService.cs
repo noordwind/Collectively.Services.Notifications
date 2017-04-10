@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Collectively.Common.Types;
 using Collectively.Messages.Commands.Notifications;
@@ -9,7 +11,8 @@ namespace Collectively.Services.Notifications.Services
 {
     public interface IUserNotificationSettingsService
     {
-        Task<Maybe<UserNotificationSettings>> GetSettingsAsync(string userId);
+        Task<IEnumerable<User>> BrowseSettingsAsync(IEnumerable<string> userIds);
+        Task<Maybe<User>> GetSettingsAsync(string userId);
         Task UpdateSettingsAsync(UpdateUserNotificationSettings newSettings);
     }
 
@@ -25,7 +28,10 @@ namespace Collectively.Services.Notifications.Services
             _mapper = mapper;
         }
 
-        public async Task<Maybe<UserNotificationSettings>> GetSettingsAsync(string userId)
+        public async Task<IEnumerable<User>> BrowseSettingsAsync(IEnumerable<string> userIds)
+            => await _repository.BrowseByIdsAsync(userIds);
+
+        public async Task<Maybe<User>> GetSettingsAsync(string userId)
             => await _repository.GetByIdAsync(userId);
 
         public async Task UpdateSettingsAsync(UpdateUserNotificationSettings newSettings)
@@ -33,7 +39,7 @@ namespace Collectively.Services.Notifications.Services
             var settings = await _repository.GetByIdAsync(newSettings.UserId);
             if (settings.HasNoValue)
             {
-                settings = _mapper.Map<UserNotificationSettings>(newSettings);
+                settings = _mapper.Map<User>(newSettings);
                 await _repository.AddAsync(settings.Value);
             }
             else

@@ -9,7 +9,6 @@ namespace Collectively.Services.Notifications.Framework.IoC
         protected override void Load(ContainerBuilder builder)
         {
             RegisterService<RemarkServiceClient, IRemarkServiceClient>(builder, "remarks");
-            RegisterService<UserServiceClient, IUserServiceClient>(builder, "users");
         }
     }
 }
