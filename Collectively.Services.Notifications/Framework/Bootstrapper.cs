@@ -71,6 +71,7 @@ namespace Collectively.Services.Notifications.Framework
                 builder.RegisterType<NotificationService>().As<INotificationService>();
                 builder.RegisterType<RemarkSubscribersService>().As<IRemarkSubscribersService>();
                 builder.RegisterType<UserNotificationSettingsService>().As<IUserNotificationSettingsService>();
+                builder.RegisterType<EmailMessageService>().As<IEmailMessageService>();
 
                 var assembly = typeof(Startup).GetTypeInfo().Assembly;
                 builder.RegisterAssemblyTypes(assembly).AsClosedTypesOf(typeof(IEventHandler<>));
