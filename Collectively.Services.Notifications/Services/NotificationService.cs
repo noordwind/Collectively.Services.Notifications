@@ -57,7 +57,7 @@ namespace Collectively.Services.Notifications.Services
             => await NotifyRemarkStateChangedAsync(remarkId);
 
 
-        public async Task NotifyPhotosAddedAsync(Guid remarkId)
+        public async Task NotifyPhotosAddedAsync(Guid remarkId, string author)
         {
             Logger.Debug($"Send RemarkStateChangedEmail, remarkId: {remarkId}");
             var remark = await GetRemarkAsync(remarkId);
@@ -67,7 +67,7 @@ namespace Collectively.Services.Notifications.Services
                 return;
 
             var users = await GetUsersAsync(subsribers.Value);
-            await _emailService.PublishPhotosAddedToRemarkEmailAsync(users, remark.Value);
+            await _emailService.PublishPhotosAddedToRemarkEmailAsync(users, remark.Value, author);
         }
 
         public async Task NotifyCommentAddedAsync(Guid remarkId, string author, string comment)

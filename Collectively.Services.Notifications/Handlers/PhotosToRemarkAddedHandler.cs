@@ -27,7 +27,7 @@ namespace Collectively.Services.Notifications.Handlers
                 .Run(async () =>
                 {
                     await _subscribersService.AddSubscriberAsync(@event.RemarkId, @event.UserId);
-                    await _notificationService.NotifyPhotosAddedAsync(@event.RemarkId);
+                    await _notificationService.NotifyPhotosAddedAsync(@event.RemarkId, string.Empty);
                 })
                 .OnError((ex, logger) =>
                 {
