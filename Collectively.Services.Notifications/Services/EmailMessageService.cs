@@ -32,7 +32,8 @@ namespace Collectively.Services.Notifications.Services
                     Date = remark.CreatedAt,
                     Email = user.Email,
                     RemarkId = remark.Id,
-                    Username = remark.Author.Name
+                    Username = remark.Author.Name,
+                    Culture = user.Culture
                 };
                 await _busClient.PublishAsync(message);
             }
@@ -54,7 +55,8 @@ namespace Collectively.Services.Notifications.Services
                     RemarkId = remark.Id,
                     Date = remark.State.CreatedAt,
                     Username = remark.State.User.Name,
-                    State = remark.State.State
+                    State = remark.State.State,
+                    Culture = user.Culture
                 };
                 await _busClient.PublishAsync(message);
             }
@@ -74,7 +76,8 @@ namespace Collectively.Services.Notifications.Services
                     Category = remark.Category.Name,
                     Email = user.Email,
                     RemarkId = remark.Id,
-                    Username = author
+                    Username = author,
+                    Culture = user.Culture
                 };
                 await _busClient.PublishAsync(message);
             }
@@ -95,7 +98,8 @@ namespace Collectively.Services.Notifications.Services
                     Email = user.Email,
                     RemarkId = remark.Id,
                     Username = author,
-                    Comment = comment
+                    Comment = comment,
+                    Culture = user.Culture
                 };
                 await _busClient.PublishAsync(message);
             }
