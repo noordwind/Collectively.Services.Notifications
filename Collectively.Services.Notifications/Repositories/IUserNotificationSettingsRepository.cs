@@ -9,7 +9,6 @@ namespace Collectively.Services.Notifications.Repositories
     {
         Task<IEnumerable<User>> BrowseByIdsAsync(IEnumerable<string> userIds);
         Task<Maybe<User>> GetByIdAsync(string userId);
-        Task AddAsync(User settings);
-        Task EditAsync(User settings);
+        Task AddOrUpdateAsync(User settings);
     }
 }

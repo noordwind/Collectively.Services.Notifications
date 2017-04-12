@@ -28,20 +28,8 @@ namespace Collectively.Services.Notifications.Services
 
         public async Task UpdateSettingsAsync(UpdateUserNotificationSettings newSettings)
         {
-            var settings = await _repository.GetByIdAsync(newSettings.UserId);
-            if (settings.HasNoValue)
-            {
-                settings = _mapper.Map<User>(newSettings);
-                await _repository.AddAsync(settings.Value);
-            }
-            else
-            {
-                settings.Value.EmailSettings = _mapper
-                    .Map<NotificationSettings>(newSettings.EmailSettings);
-                settings.Value.PushSettings = _mapper
-                    .Map<NotificationSettings>(newSettings.PushSettings);
-                await _repository.EditAsync(settings.Value);
-            }
+            var settings = _mapper.Map<User>(newSettings);
+            await _repository.AddOrUpdateAsync(settings);
         }
     }
 }

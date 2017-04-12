@@ -22,11 +22,8 @@ namespace Collectively.Services.Notifications.Repositories
         public async Task<Maybe<User>> GetByIdAsync(string userId)
             => await _database.UserNotificationSettings().GetByIdAsync(userId);
 
-        public async Task AddAsync(User settings)
-            => await _database.UserNotificationSettings().AddAsync(settings);
-
-        public async Task EditAsync(User settings)
-            => await _database.UserNotificationSettings().EditAsync(settings);
+        public async Task AddOrUpdateAsync(User settings)
+            => await _database.UserNotificationSettings().AddOrUpdateAsync(settings);
 
     }
 }

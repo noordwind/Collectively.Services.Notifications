@@ -1,8 +1,8 @@
-﻿using Collectively.Common.Domain;
+﻿using Collectively.Services.Notifications.Domain;
 
-namespace Collectively.Services.Notifications.Domain
+namespace Collectively.Services.Notifications.Dto
 {
-    public class User : IdentifiableEntity
+    public class UserNotificationSettingsDto
     {
         public string UserId { get; set; }
         public string Email { get; set; }

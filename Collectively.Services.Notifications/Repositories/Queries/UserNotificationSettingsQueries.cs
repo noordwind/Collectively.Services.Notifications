@@ -38,12 +38,11 @@ namespace Collectively.Services.Notifications.Repositories.Queries
             return await collection.AsQueryable().FirstOrDefaultAsync(x => x.UserId == userId);
         }
 
-        public static async Task AddAsync(
+        public static async Task AddOrUpdateAsync(
             this IMongoCollection<User> collection, User settings)
-            => await collection.InsertOneAsync(settings);
-
-        public static async Task EditAsync(
-            this IMongoCollection<User> collection, User settings)
-            => await collection.ReplaceOneAsync(x => x.UserId == settings.UserId, settings);
+            => await collection.ReplaceOneAsync(x => x.UserId == settings.UserId, settings, new UpdateOptions
+            {
+                IsUpsert = true
+            });
     }
 }
