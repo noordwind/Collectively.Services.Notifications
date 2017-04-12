@@ -10,7 +10,7 @@ namespace Collectively.Services.Notifications.Modules
     {
         public SettingsModule(IMapper mapper,
             IUserNotificationSettingsService settingsService) 
-            : base(mapper, "settings", false)
+            : base(mapper, "notification/settings", false)
         {
             Get("/{userId}", async args => await Fetch<GetUserNotificationSettings, User>
                 (async x => await settingsService.GetSettingsAsync(x.UserId))
