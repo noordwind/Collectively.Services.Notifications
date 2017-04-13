@@ -7,8 +7,8 @@ namespace Collectively.Services.Notifications.Repositories
 {
     public interface IUserNotificationSettingsRepository
     {
-        Task<IEnumerable<User>> BrowseByIdsAsync(IEnumerable<string> userIds);
-        Task<Maybe<User>> GetByIdAsync(string userId);
-        Task AddOrUpdateAsync(User settings);
+        Task<IEnumerable<UserNotificationSettings>> BrowseByIdsAsync(IEnumerable<string> userIds);
+        Task<Maybe<UserNotificationSettings>> GetByIdAsync(string userId);
+        Task AddOrUpdateAsync(UserNotificationSettings settings);
     }
 }

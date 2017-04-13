@@ -17,7 +17,7 @@ namespace Collectively.Services.Notifications.Services
             _busClient = busClient;
         }
 
-        public async Task PublishRemarkCreatedEmailAsync(IEnumerable<User> users, Remark remark)
+        public async Task PublishRemarkCreatedEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark)
         {
             if (users == null)
                 return;
@@ -39,7 +39,7 @@ namespace Collectively.Services.Notifications.Services
             }
         }
 
-        public async Task PublishRemarkStateChangedEmailAsync(IEnumerable<User> users, Remark remark)
+        public async Task PublishRemarkStateChangedEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark)
         {
             if (users == null)
                 return;
@@ -62,7 +62,7 @@ namespace Collectively.Services.Notifications.Services
             }
         }
 
-        public async Task PublishPhotosAddedToRemarkEmailAsync(IEnumerable<User> users, Remark remark, string author)
+        public async Task PublishPhotosAddedToRemarkEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark, string author)
         {
             if (users == null)
                 return;
@@ -83,7 +83,7 @@ namespace Collectively.Services.Notifications.Services
             }
         }
 
-        public async Task PublishCommentAddedToRemarkEmailAsync(IEnumerable<User> users, Remark remark, string author, string comment)
+        public async Task PublishCommentAddedToRemarkEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark, string author, string comment)
         {
             if (users == null)
                 return;

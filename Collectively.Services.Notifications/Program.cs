@@ -1,6 +1,7 @@
 ﻿using Collectively.Common.Host;
 using Collectively.Messages.Commands.Notifications;
 using Collectively.Messages.Events.Remarks;
+using Collectively.Messages.Events.Users;
 using Collectively.Services.Notifications.Framework;
 
 namespace Collectively.Services.Notifications
@@ -22,6 +23,8 @@ namespace Collectively.Services.Notifications
                 .SubscribeToEvent<RemarkResolved>()
                 .SubscribeToEvent<PhotosToRemarkAdded>()
                 .SubscribeToEvent<CommentAddedToRemark>()
+                .SubscribeToEvent<SignedUp>()
+                .SubscribeToEvent<UsernameChanged>()
                 .Build()
                 .Run();
         }

@@ -12,7 +12,7 @@ namespace Collectively.Services.Notifications.Modules
             IUserNotificationSettingsService settingsService) 
             : base(mapper, "notification/settings", false)
         {
-            Get("/{userId}", async args => await Fetch<GetUserNotificationSettings, User>
+            Get("/{userId}", async args => await Fetch<GetUserNotificationSettings, UserNotificationSettings>
                 (async x => await settingsService.GetSettingsAsync(x.UserId))
                 .MapTo<UserNotificationSettingsDto>()
                 .HandleAsync());

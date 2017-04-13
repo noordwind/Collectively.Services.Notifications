@@ -102,7 +102,7 @@ namespace Collectively.Services.Notifications.Services
         protected async Task<Maybe<RemarkSubscribers>> GetSubscribersAsync(Guid remarkId)
             => await _subscribersService.GetSubscribersAsync(remarkId);
 
-        protected async Task<IEnumerable<User>> GetUsersAsync(RemarkSubscribers subscribers)
+        protected async Task<IEnumerable<UserNotificationSettings>> GetUsersAsync(RemarkSubscribers subscribers)
             => await _userNotificationSettingsService
                 .BrowseSettingsAsync(subscribers.Users);
     }

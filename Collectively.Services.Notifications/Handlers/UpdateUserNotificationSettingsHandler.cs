@@ -1,8 +1,10 @@
 ﻿using System.Threading.Tasks;
+using AutoMapper;
 using Collectively.Common.Services;
 using Collectively.Messages.Commands;
 using Collectively.Messages.Commands.Notifications;
 using Collectively.Messages.Events.Notifications;
+using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Services;
 using RawRabbit;
 
@@ -11,14 +13,17 @@ namespace Collectively.Services.Notifications.Handlers
     public class UpdateUserNotificationSettingsHandler : ICommandHandler<UpdateUserNotificationSettings>
     {
         private readonly IHandler _handler;
+        private readonly IMapper _mapper;
         private readonly IBusClient _bus;
         private readonly IUserNotificationSettingsService _settingsService;
 
         public UpdateUserNotificationSettingsHandler(IHandler handler,
+            IMapper mapper,
             IBusClient bus,
             IUserNotificationSettingsService settingsService)
         {
             _handler = handler;
+            _mapper = mapper;
             _bus = bus;
             _settingsService = settingsService;
         }
@@ -28,7 +33,8 @@ namespace Collectively.Services.Notifications.Handlers
             await _handler
                 .Run(async () =>
                 {
-                    await _settingsService.UpdateSettingsAsync(command);
+                    var settings = _mapper.Map<UserNotificationSettings>(command);
+                    await _settingsService.UpdateSettingsAsync(settings);
                 })
                 .OnSuccess(async () =>
                 {

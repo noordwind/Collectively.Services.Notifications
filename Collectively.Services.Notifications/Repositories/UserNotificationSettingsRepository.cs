@@ -16,13 +16,13 @@ namespace Collectively.Services.Notifications.Repositories
             _database = database;
         }
 
-        public async Task<IEnumerable<User>> BrowseByIdsAsync(IEnumerable<string> userIds)
+        public async Task<IEnumerable<UserNotificationSettings>> BrowseByIdsAsync(IEnumerable<string> userIds)
             => await _database.UserNotificationSettings().BrowseByIdsAsync(userIds);
 
-        public async Task<Maybe<User>> GetByIdAsync(string userId)
+        public async Task<Maybe<UserNotificationSettings>> GetByIdAsync(string userId)
             => await _database.UserNotificationSettings().GetByIdAsync(userId);
 
-        public async Task AddOrUpdateAsync(User settings)
+        public async Task AddOrUpdateAsync(UserNotificationSettings settings)
             => await _database.UserNotificationSettings().AddOrUpdateAsync(settings);
 
     }

@@ -11,26 +11,26 @@ namespace Collectively.Services.Notifications.Repositories.Queries
 {
     public static class UserNotificationSettingsQueries
     {
-        public static IMongoCollection<User> UserNotificationSettings(this IMongoDatabase database)
-            => database.GetCollection<User>();
+        public static IMongoCollection<UserNotificationSettings> UserNotificationSettings(this IMongoDatabase database)
+            => database.GetCollection<UserNotificationSettings>();
 
-        public static async Task<IEnumerable<User>> BrowseByIdsAsync(
-            this IMongoCollection<User> collection, IEnumerable<string> userIds)
+        public static async Task<IEnumerable<UserNotificationSettings>> BrowseByIdsAsync(
+            this IMongoCollection<UserNotificationSettings> collection, IEnumerable<string> userIds)
         {
             if (userIds == null)
-                return Enumerable.Empty<User>();
+                return Enumerable.Empty<UserNotificationSettings>();
 
             var enumerable = userIds as string[] ?? userIds.ToArray();
             if (enumerable.Any() == false)
-                return Enumerable.Empty<User>();
+                return Enumerable.Empty<UserNotificationSettings>();
 
             return await collection.AsQueryable()
                 .Where(x => enumerable.Contains(x.UserId))
                 .ToListAsync();
         }
 
-        public static async Task<User> GetByIdAsync(
-            this IMongoCollection<User> collection, string userId)
+        public static async Task<UserNotificationSettings> GetByIdAsync(
+            this IMongoCollection<UserNotificationSettings> collection, string userId)
         {
             if (userId.Empty())
                 return null;
@@ -39,7 +39,7 @@ namespace Collectively.Services.Notifications.Repositories.Queries
         }
 
         public static async Task AddOrUpdateAsync(
-            this IMongoCollection<User> collection, User settings)
+            this IMongoCollection<UserNotificationSettings> collection, UserNotificationSettings settings)
             => await collection.ReplaceOneAsync(x => x.UserId == settings.UserId, settings, new UpdateOptions
             {
                 IsUpsert = true

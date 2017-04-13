@@ -11,9 +11,9 @@ namespace Collectively.Services.Notifications.Framework
         {
             var config = new MapperConfiguration(cfg =>
             {
-                cfg.CreateMap<UpdateUserNotificationSettings, User>();
+                cfg.CreateMap<UpdateUserNotificationSettings, UserNotificationSettings>();
                 cfg.CreateMap<Messages.Commands.Models.NotificationSettings, NotificationSettings>();
-                cfg.CreateMap<User, UserNotificationSettingsDto>();
+                cfg.CreateMap<UserNotificationSettings, UserNotificationSettingsDto>();
             });
 
             return config.CreateMapper();

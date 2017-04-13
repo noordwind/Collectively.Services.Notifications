@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using AutoMapper;
 using Collectively.Common.Types;
 using Collectively.Messages.Commands.Notifications;
 using Collectively.Services.Notifications.Domain;
@@ -11,32 +10,28 @@ namespace Collectively.Services.Notifications.Services
     public class UserNotificationSettingsService : IUserNotificationSettingsService
     {
         private readonly IUserNotificationSettingsRepository _repository;
-        private readonly IMapper _mapper;
 
-        public UserNotificationSettingsService(IUserNotificationSettingsRepository repository,
-            IMapper mapper)
+        public UserNotificationSettingsService(IUserNotificationSettingsRepository repository)
         {
             _repository = repository;
-            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<User>> BrowseSettingsAsync(IEnumerable<string> userIds)
+        public async Task<IEnumerable<UserNotificationSettings>> BrowseSettingsAsync(IEnumerable<string> userIds)
             => await _repository.BrowseByIdsAsync(userIds);
 
-        public async Task<Maybe<User>> GetSettingsAsync(string userId)
+        public async Task<Maybe<UserNotificationSettings>> GetSettingsAsync(string userId)
             => await _repository.GetByIdAsync(userId);
 
-        public async Task UpdateSettingsAsync(UpdateUserNotificationSettings newSettings)
+        public async Task UpdateSettingsAsync(UserNotificationSettings newSettings)
         {
-            var settings = _mapper.Map<User>(newSettings);
             var currentSettings = await _repository.GetByIdAsync(newSettings.UserId);
             if (currentSettings.HasValue)
             {
-                currentSettings.Value.Update(settings);
-                settings = currentSettings.Value;
+                currentSettings.Value.Update(newSettings);
+                newSettings = currentSettings.Value;
             }
 
-            await _repository.AddOrUpdateAsync(settings);
+            await _repository.AddOrUpdateAsync(newSettings);
         }
     }
 }
