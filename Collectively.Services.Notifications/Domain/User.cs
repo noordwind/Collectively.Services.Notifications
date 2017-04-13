@@ -10,5 +10,15 @@ namespace Collectively.Services.Notifications.Domain
         public string Culture { get; set; }
         public NotificationSettings EmailSettings { get; set; }
         public NotificationSettings PushSettings { get; set; }
+
+        public void Update(User user)
+        {
+            UserId = user.UserId;
+            Email = user.Email;
+            Username = user.Username;
+            Culture = user.Culture;
+            EmailSettings = user.EmailSettings;
+            PushSettings = user.PushSettings;
+        }
     }
 }

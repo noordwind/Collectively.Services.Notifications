@@ -29,6 +29,13 @@ namespace Collectively.Services.Notifications.Services
         public async Task UpdateSettingsAsync(UpdateUserNotificationSettings newSettings)
         {
             var settings = _mapper.Map<User>(newSettings);
+            var currentSettings = await _repository.GetByIdAsync(newSettings.UserId);
+            if (currentSettings.HasValue)
+            {
+                currentSettings.Value.Update(settings);
+                settings = currentSettings.Value;
+            }
+
             await _repository.AddOrUpdateAsync(settings);
         }
     }
