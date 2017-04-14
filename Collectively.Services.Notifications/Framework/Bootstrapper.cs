@@ -15,6 +15,7 @@ using Collectively.Messages.Events;
 using Collectively.Services.Notifications.Framework.IoC;
 using Collectively.Services.Notifications.Repositories;
 using Collectively.Services.Notifications.Services;
+using Collectively.Services.Notifications.Settings;
 using Microsoft.Extensions.Configuration;
 using Nancy;
 using Nancy.Bootstrapper;
@@ -56,6 +57,7 @@ namespace Collectively.Services.Notifications.Framework
             {
                 builder.RegisterType<CustomJsonSerializer>().As<JsonSerializer>().SingleInstance();
                 builder.RegisterInstance(_configuration.GetSettings<ExceptionlessSettings>()).SingleInstance();
+                builder.RegisterInstance(_configuration.GetSettings<GeneralSettings>());
                 builder.RegisterType<ExceptionlessExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 builder.RegisterType<Handler>().As<IHandler>();
                 builder.RegisterInstance(AutoMapperConfig.InitializeMapper());

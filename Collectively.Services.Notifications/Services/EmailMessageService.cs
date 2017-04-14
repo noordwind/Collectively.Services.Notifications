@@ -5,6 +5,7 @@ using Collectively.Messages.Commands;
 using Collectively.Messages.Commands.Mailing;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Models;
+using Collectively.Services.Notifications.Settings;
 using RawRabbit;
 
 namespace Collectively.Services.Notifications.Services
@@ -12,10 +13,13 @@ namespace Collectively.Services.Notifications.Services
     public class EmailMessageService : IEmailMessageService
     {
         private readonly IBusClient _busClient;
+        private readonly GeneralSettings _settings;
 
-        public EmailMessageService(IBusClient busClient)
+        public EmailMessageService(IBusClient busClient,
+            GeneralSettings settings)
         {
             _busClient = busClient;
+            _settings = settings;
         }
 
         public async Task PublishRemarkCreatedEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark)
@@ -38,7 +42,8 @@ namespace Collectively.Services.Notifications.Services
                     Email = user.Email,
                     RemarkId = remark.Id,
                     Username = remark.Author.Name,
-                    Culture = user.Culture
+                    Culture = user.Culture,
+                    RemarkUrl = $"{_settings.RemarksPath}{remark.Id}"
                 };
                 await _busClient.PublishAsync(message);
             }
@@ -123,7 +128,8 @@ namespace Collectively.Services.Notifications.Services
                     Email = user.Email,
                     RemarkId = remark.Id,
                     Username = author,
-                    Culture = user.Culture
+                    Culture = user.Culture,
+                    RemarkUrl = $"{_settings.RemarksPath}{remark.Id}"
                 };
                 await _busClient.PublishAsync(message);
             }
@@ -149,7 +155,8 @@ namespace Collectively.Services.Notifications.Services
                     RemarkId = remark.Id,
                     Username = author,
                     Comment = comment,
-                    Culture = user.Culture
+                    Culture = user.Culture,
+                    RemarkUrl = $"{_settings.RemarksPath}{remark.Id}"
                 };
                 await _busClient.PublishAsync(message);
             }
@@ -175,7 +182,8 @@ namespace Collectively.Services.Notifications.Services
                     Date = remark.State.CreatedAt,
                     Username = remark.State.User.Name,
                     State = remark.State.State,
-                    Culture = user.Culture
+                    Culture = user.Culture,
+                    RemarkUrl = $"{_settings.RemarksPath}{remark.Id}"
                 };
                 await _busClient.PublishAsync(message);
             }
