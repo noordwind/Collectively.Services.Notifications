@@ -42,19 +42,69 @@ namespace Collectively.Services.Notifications.Services
         }
 
         public async Task NotifyRemarkCanceledAsync(Guid remarkId)
-            => await NotifyRemarkStateChangedAsync(remarkId);
+        {
+            Logger.Debug($"Send RemarkCanceledEmail, remarkId: {remarkId}");
+            var remark = await GetRemarkAsync(remarkId);
+            var subsribers = await GetSubscribersAsync(remarkId);
+
+            if (subsribers.HasNoValue)
+                return;
+
+            var users = await GetUsersAsync(subsribers.Value);
+            await _emailService.PublishRemarkCanceledEmailAsync(users, remark.Value);
+        }
 
         public async Task NotifyRemarkDeletedAsync(Guid remarkId)
-            => await NotifyRemarkStateChangedAsync(remarkId);
+        {
+            Logger.Debug($"Send RemarkDeletedEmail, remarkId: {remarkId}");
+            var remark = await GetRemarkAsync(remarkId);
+            var subsribers = await GetSubscribersAsync(remarkId);
+
+            if (subsribers.HasNoValue)
+                return;
+
+            var users = await GetUsersAsync(subsribers.Value);
+            await _emailService.PublishRemarkDeletedEmailAsync(users, remark.Value);
+        }
 
         public async Task NotifyRemarkProcessedAsync(Guid remarkId)
-            => await NotifyRemarkStateChangedAsync(remarkId);
+        {
+            Logger.Debug($"Send RemarkProcessedEmail, remarkId: {remarkId}");
+            var remark = await GetRemarkAsync(remarkId);
+            var subsribers = await GetSubscribersAsync(remarkId);
+
+            if (subsribers.HasNoValue)
+                return;
+
+            var users = await GetUsersAsync(subsribers.Value);
+            await _emailService.PublishRemarkProcessedEmailAsync(users, remark.Value);
+        }
 
         public async Task NotifyRemarkRenewedAsync(Guid remarkId)
-            => await NotifyRemarkStateChangedAsync(remarkId);
+        {
+            Logger.Debug($"Send RemarkRenewedEmail, remarkId: {remarkId}");
+            var remark = await GetRemarkAsync(remarkId);
+            var subsribers = await GetSubscribersAsync(remarkId);
+
+            if (subsribers.HasNoValue)
+                return;
+
+            var users = await GetUsersAsync(subsribers.Value);
+            await _emailService.PublishRemarkRenewedEmailAsync(users, remark.Value);
+        }
 
         public async Task NotifyRemarkResolvedAsync(Guid remarkId)
-            => await NotifyRemarkStateChangedAsync(remarkId);
+        {
+            Logger.Debug($"Send RemarkResolvedEmail, remarkId: {remarkId}");
+            var remark = await GetRemarkAsync(remarkId);
+            var subsribers = await GetSubscribersAsync(remarkId);
+
+            if (subsribers.HasNoValue)
+                return;
+
+            var users = await GetUsersAsync(subsribers.Value);
+            await _emailService.PublishRemarkResolvedEmailAsync(users, remark.Value);
+        }
 
 
         public async Task NotifyPhotosAddedAsync(Guid remarkId, string author)
@@ -81,19 +131,6 @@ namespace Collectively.Services.Notifications.Services
 
             var users = await GetUsersAsync(subsribers.Value);
             await _emailService.PublishCommentAddedToRemarkEmailAsync(users, remark.Value, author, comment);
-        }
-
-        protected async Task NotifyRemarkStateChangedAsync(Guid remarkId)
-        {
-            Logger.Debug($"Send RemarkStateChangedEmail, remarkId: {remarkId}");
-            var remark = await GetRemarkAsync(remarkId);
-            var subsribers = await GetSubscribersAsync(remarkId);
-
-            if (subsribers.HasNoValue)
-                return;
-
-            var users = await GetUsersAsync(subsribers.Value);
-            await _emailService.PublishRemarkStateChangedEmailAsync(users, remark.Value);
         }
 
         protected async Task<Maybe<Remark>> GetRemarkAsync(Guid remarkId) 
