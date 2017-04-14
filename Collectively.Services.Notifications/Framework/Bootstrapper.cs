@@ -57,13 +57,14 @@ namespace Collectively.Services.Notifications.Framework
             {
                 builder.RegisterType<CustomJsonSerializer>().As<JsonSerializer>().SingleInstance();
                 builder.RegisterInstance(_configuration.GetSettings<ExceptionlessSettings>()).SingleInstance();
-                builder.RegisterInstance(_configuration.GetSettings<GeneralSettings>());
+                builder.RegisterInstance(_configuration.GetSettings<GeneralSettings>()).SingleInstance();
                 builder.RegisterType<ExceptionlessExceptionHandler>().As<IExceptionHandler>().SingleInstance();
                 builder.RegisterType<Handler>().As<IHandler>();
                 builder.RegisterInstance(AutoMapperConfig.InitializeMapper());
                 builder.RegisterInstance(_configuration.GetSettings<MongoDbSettings>()).SingleInstance();
                 builder.RegisterModule<MongoDbModule>();
                 builder.RegisterType<MongoDbInitializer>().As<IDatabaseInitializer>();
+                builder.RegisterType<DatabaseSeeder>().As<IDatabaseSeeder>();
                 builder.RegisterModule<ServiceClientModule>();
                 builder.RegisterModule<ServiceClientsModule>();
 
@@ -99,6 +100,8 @@ namespace Collectively.Services.Notifications.Framework
         {
             var databaseInitializer = container.Resolve<IDatabaseInitializer>();
             databaseInitializer.InitializeAsync();
+            var databaseSeeder = container.Resolve<IDatabaseSeeder>();
+            databaseSeeder.SeedAsync();
             pipelines.BeforeRequest += (ctx) =>
             {
                 FixNumberFormat(ctx);

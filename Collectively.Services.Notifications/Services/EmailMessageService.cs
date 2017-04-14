@@ -5,6 +5,7 @@ using Collectively.Messages.Commands;
 using Collectively.Messages.Commands.Mailing;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Models;
+using Collectively.Services.Notifications.Repositories;
 using Collectively.Services.Notifications.Settings;
 using RawRabbit;
 
@@ -13,12 +14,15 @@ namespace Collectively.Services.Notifications.Services
     public class EmailMessageService : IEmailMessageService
     {
         private readonly IBusClient _busClient;
+        private readonly ILocalizedResourceRepository _localizedResourceRepository;
         private readonly GeneralSettings _settings;
 
         public EmailMessageService(IBusClient busClient,
+            ILocalizedResourceRepository localizedResourceRepository,
             GeneralSettings settings)
         {
             _busClient = busClient;
+            _localizedResourceRepository = localizedResourceRepository;
             _settings = settings;
         }
 
@@ -37,7 +41,7 @@ namespace Collectively.Services.Notifications.Services
                 {
                     Request = Request.New<SendRemarkCreatedEmailMessage>(),
                     Address = remark.Location.Address,
-                    Category = remark.Category.Name,
+                    Category = await GetTranslatedCategoryAsync(user.Culture, remark.Category.Name),
                     Date = remark.CreatedAt,
                     Email = user.Email,
                     RemarkId = remark.Id,
@@ -124,7 +128,7 @@ namespace Collectively.Services.Notifications.Services
                 {
                     Request = Request.New<SendPhotosAddedToRemarkEmailMessage>(),
                     Address = remark.Location.Address,
-                    Category = remark.Category.Name,
+                    Category = await GetTranslatedCategoryAsync(user.Culture, remark.Category.Name),
                     Email = user.Email,
                     RemarkId = remark.Id,
                     Username = author,
@@ -150,7 +154,7 @@ namespace Collectively.Services.Notifications.Services
                 {
                     Request = Request.New<SendCommentAddedToRemarkEmailMessage>(),
                     Address = remark.Location.Address,
-                    Category = remark.Category.Name,
+                    Category = await GetTranslatedCategoryAsync(user.Culture, remark.Category.Name),
                     Email = user.Email,
                     RemarkId = remark.Id,
                     Username = author,
@@ -176,17 +180,31 @@ namespace Collectively.Services.Notifications.Services
                 {
                     Request = Request.New<SendRemarkStateChangedEmailMessage>(),
                     Address = remark.Location.Address,
-                    Category = remark.Category.Name,
+                    Category = await GetTranslatedCategoryAsync(user.Culture, remark.Category.Name),
                     Email = user.Email,
                     RemarkId = remark.Id,
                     Date = remark.State.CreatedAt,
                     Username = remark.State.User.Name,
-                    State = remark.State.State,
+                    State = await GetTranslatedStateAsync(user.Culture, remark.State.State),
                     Culture = user.Culture,
                     RemarkUrl = $"{_settings.RemarksPath}{remark.Id}"
                 };
                 await _busClient.PublishAsync(message);
             }
+        }
+
+        protected async Task<string> GetTranslatedStateAsync(string culture, string state)
+        {
+            var resource = await _localizedResourceRepository.GetAsync($"state:{state}", culture);
+
+            return resource.HasValue ? resource.Value.Text : state;
+        }
+
+        protected async Task<string> GetTranslatedCategoryAsync(string culture, string category)
+        {
+            var resource = await _localizedResourceRepository.GetAsync($"category:{category}", culture);
+
+            return resource.HasValue ? resource.Value.Text : category;
         }
     }
 }
