@@ -21,5 +21,8 @@ namespace Collectively.Services.Notifications.Repositories
 
         public async Task AddOrUpdateAsync(RemarkSubscribers subscribers)
             => await _database.RemarkSubscribers().AddOrUpdateAsync(subscribers);
+
+        public async Task RemoveAsync(Guid remarkId)
+            => await _database.RemarkSubscribers().DeleteOneAsync(x => x.RemarkId == remarkId);
     }
 }

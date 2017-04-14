@@ -28,5 +28,8 @@ namespace Collectively.Services.Notifications.Services
 
         public async Task<Maybe<RemarkSubscribers>> GetSubscribersAsync(Guid remarkId)
             => await _repository.GetByIdAsync(remarkId);
+
+        public async Task RemoveSubscribersAsync(Guid remarkId)
+            => await _repository.RemoveAsync(remarkId);
     }
 }

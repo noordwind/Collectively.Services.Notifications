@@ -9,5 +9,6 @@ namespace Collectively.Services.Notifications.Repositories
     {
         Task<Maybe<RemarkSubscribers>> GetByIdAsync(Guid remarkId);
         Task AddOrUpdateAsync(RemarkSubscribers subscribers);
+        Task RemoveAsync(Guid remarkId);
     }
 }

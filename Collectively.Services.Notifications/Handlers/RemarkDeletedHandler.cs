@@ -10,15 +10,12 @@ namespace Collectively.Services.Notifications.Handlers
     {
         private readonly IHandler _handler;
         private readonly IRemarkSubscribersService _subscribersService;
-        private readonly INotificationService _notificationService;
 
         public RemarkDeletedHandler(IHandler handler,
-            IRemarkSubscribersService subscribersService,
-            INotificationService notificationService)
+            IRemarkSubscribersService subscribersService)
         {
             _handler = handler;
             _subscribersService = subscribersService;
-            _notificationService = notificationService;
         }
 
         public async Task HandleAsync(RemarkDeleted @event)
@@ -26,8 +23,7 @@ namespace Collectively.Services.Notifications.Handlers
             await _handler
                 .Run(async () =>
                 {
-                    await _subscribersService.AddSubscriberAsync(@event.RemarkId, @event.UserId);
-                    await _notificationService.NotifyRemarkDeletedAsync(@event.RemarkId);
+                    await _subscribersService.RemoveSubscribersAsync(@event.RemarkId);
                 })
                 .OnError((ex, logger) =>
                 {
