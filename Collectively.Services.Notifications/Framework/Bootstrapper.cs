@@ -70,6 +70,7 @@ namespace Collectively.Services.Notifications.Framework
 
                 builder.RegisterType<UserNotificationSettingsRepository>().As<IUserNotificationSettingsRepository>();
                 builder.RegisterType<RemarkSubscribersRepository>().As<IRemarkSubscribersRepository>();
+                builder.RegisterType<LocalizedResourceRepository>().As<ILocalizedResourceRepository>();
 
                 builder.RegisterType<NotificationService>().As<INotificationService>();
                 builder.RegisterType<RemarkSubscribersService>().As<IRemarkSubscribersService>();
