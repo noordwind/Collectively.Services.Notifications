@@ -11,7 +11,7 @@ namespace Collectively.Services.Notifications.Services
         Task NotifyRemarkProcessedAsync(Guid remarkId);
         Task NotifyRemarkRenewedAsync(Guid remarkId);
         Task NotifyRemarkResolvedAsync(Guid remarkId);
-        Task NotifyPhotosAddedAsync(Guid remarkId, string author);
-        Task NotifyCommentAddedAsync(Guid remarkId, string author, string comment);
+        Task NotifyPhotoAddedAsync(Guid remarkId);
+        Task NotifyCommentAddedAsync(Guid remarkId, string author, string comment, DateTime date);
     }
 }

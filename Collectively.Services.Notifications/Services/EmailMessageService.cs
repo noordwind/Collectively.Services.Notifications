@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -113,7 +114,7 @@ namespace Collectively.Services.Notifications.Services
             await PublishRemarkStateChangedEmailAsync(recipients, remark);
         }
 
-        public async Task PublishPhotosAddedToRemarkEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark, string author)
+        public async Task PublishPhotosAddedToRemarkEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark)
         {
             if (users == null)
                 return;
@@ -131,7 +132,6 @@ namespace Collectively.Services.Notifications.Services
                     Category = await GetTranslatedCategoryAsync(user.Culture, remark.Category.Name),
                     Email = user.Email,
                     RemarkId = remark.Id,
-                    Username = author,
                     Culture = user.Culture,
                     RemarkUrl = $"{_settings.RemarksPath}{remark.Id}"
                 };
@@ -139,7 +139,8 @@ namespace Collectively.Services.Notifications.Services
             }
         }
 
-        public async Task PublishCommentAddedToRemarkEmailAsync(IEnumerable<UserNotificationSettings> users, Remark remark, string author, string comment)
+        public async Task PublishCommentAddedToRemarkEmailAsync(IEnumerable<UserNotificationSettings> users,
+            Remark remark, string author, string comment, DateTime date)
         {
             if (users == null)
                 return;
@@ -156,6 +157,7 @@ namespace Collectively.Services.Notifications.Services
                     Address = remark.Location.Address,
                     Category = await GetTranslatedCategoryAsync(user.Culture, remark.Category.Name),
                     Email = user.Email,
+                    Date = date,
                     RemarkId = remark.Id,
                     Username = author,
                     Comment = comment,

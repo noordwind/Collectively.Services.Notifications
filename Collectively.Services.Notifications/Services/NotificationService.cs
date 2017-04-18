@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
@@ -107,7 +108,7 @@ namespace Collectively.Services.Notifications.Services
         }
 
 
-        public async Task NotifyPhotosAddedAsync(Guid remarkId, string author)
+        public async Task NotifyPhotoAddedAsync(Guid remarkId)
         {
             Logger.Debug($"Send RemarkStateChangedEmail, remarkId: {remarkId}");
             var remark = await GetRemarkAsync(remarkId);
@@ -117,10 +118,10 @@ namespace Collectively.Services.Notifications.Services
                 return;
 
             var users = await GetUsersAsync(subsribers.Value);
-            await _emailService.PublishPhotosAddedToRemarkEmailAsync(users, remark.Value, author);
+            await _emailService.PublishPhotosAddedToRemarkEmailAsync(users, remark.Value);
         }
 
-        public async Task NotifyCommentAddedAsync(Guid remarkId, string author, string comment)
+        public async Task NotifyCommentAddedAsync(Guid remarkId, string author, string comment, DateTime date)
         {
             Logger.Debug($"Send RemarkStateChangedEmail, remarkId: {remarkId}");
             var remark = await GetRemarkAsync(remarkId);
@@ -130,7 +131,7 @@ namespace Collectively.Services.Notifications.Services
                 return;
 
             var users = await GetUsersAsync(subsribers.Value);
-            await _emailService.PublishCommentAddedToRemarkEmailAsync(users, remark.Value, author, comment);
+            await _emailService.PublishCommentAddedToRemarkEmailAsync(users, remark.Value, author, comment, date);
         }
 
         protected async Task<Maybe<Remark>> GetRemarkAsync(Guid remarkId) 

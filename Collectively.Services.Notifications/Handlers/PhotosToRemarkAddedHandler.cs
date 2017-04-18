@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Collectively.Common.Services;
 using Collectively.Messages.Events;
 using Collectively.Messages.Events.Remarks;
@@ -27,7 +28,7 @@ namespace Collectively.Services.Notifications.Handlers
                 .Run(async () =>
                 {
                     await _subscribersService.AddSubscriberAsync(@event.RemarkId, @event.UserId);
-                    await _notificationService.NotifyPhotosAddedAsync(@event.RemarkId, string.Empty);
+                    await _notificationService.NotifyPhotoAddedAsync(@event.RemarkId);
                 })
                 .OnError((ex, logger) =>
                 {
