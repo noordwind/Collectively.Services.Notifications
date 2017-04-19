@@ -19,5 +19,10 @@ namespace Collectively.Services.Notifications.Domain
         {
             Users.Add(userId);
         }
+
+        public void RemoveSubscriber(string userId)
+        {
+            Users.Remove(userId);
+        }
     }
 }

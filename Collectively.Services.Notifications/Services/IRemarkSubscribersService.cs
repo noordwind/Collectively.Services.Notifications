@@ -10,5 +10,6 @@ namespace Collectively.Services.Notifications.Services
         Task AddSubscriberAsync(Guid remarkId, string userId);
         Task<Maybe<RemarkSubscribers>> GetSubscribersAsync(Guid remarkId);
         Task RemoveSubscribersAsync(Guid remarkId);
+        Task RemoveSubscriberAsync(Guid remarkId, string userId);
     }
 }

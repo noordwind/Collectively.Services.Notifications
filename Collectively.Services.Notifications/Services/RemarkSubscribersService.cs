@@ -3,11 +3,13 @@ using System.Threading.Tasks;
 using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Repositories;
+using NLog;
 
 namespace Collectively.Services.Notifications.Services
 {
     public class RemarkSubscribersService : IRemarkSubscribersService
     {
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
         private readonly IRemarkSubscribersRepository _repository;
 
         public RemarkSubscribersService(IRemarkSubscribersRepository repository)
@@ -20,9 +22,11 @@ namespace Collectively.Services.Notifications.Services
             var subsribers = await _repository.GetByIdAsync(remarkId);
             if (subsribers.HasNoValue)
             {
+                Logger.Debug($"RemarkSubsribers not found for remarkId: {remarkId}. Creating new one.");
                 subsribers = new RemarkSubscribers(remarkId);
             }
             subsribers.Value.AddSubscriber(userId);
+            Logger.Debug($"Add subscriber. remarkId: {remarkId}, userId: {userId}");
             await _repository.AddOrUpdateAsync(subsribers.Value);
         }
 
@@ -30,6 +34,23 @@ namespace Collectively.Services.Notifications.Services
             => await _repository.GetByIdAsync(remarkId);
 
         public async Task RemoveSubscribersAsync(Guid remarkId)
-            => await _repository.RemoveAsync(remarkId);
+        {
+            Logger.Debug($"Remove all subscribers, remarkId: {remarkId}");
+            await _repository.RemoveAsync(remarkId);
+        }
+
+        public async Task RemoveSubscriberAsync(Guid remarkId, string userId)
+        {
+            var subscribers = await GetSubscribersAsync(remarkId);
+            if (subscribers.HasNoValue)
+            {
+                Logger.Debug($"RemarkSubsribers not found for remarkId: {remarkId}. Nothing to remove");
+                return;
+            }
+
+            subscribers.Value.RemoveSubscriber(userId);
+            Logger.Debug($"Remove subscriber. remarkId: {remarkId}, userId: {userId}");
+            await _repository.AddOrUpdateAsync(subscribers.Value);
+        }
     }
 }

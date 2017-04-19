@@ -25,6 +25,10 @@ namespace Collectively.Services.Notifications
                 .SubscribeToEvent<CommentAddedToRemark>()
                 .SubscribeToEvent<SignedUp>()
                 .SubscribeToEvent<UsernameChanged>()
+                .SubscribeToEvent<FavoriteRemarkAdded>()
+                .SubscribeToEvent<FavoriteRemarkDeleted>()
+                .SubscribeToEvent<RemarkActionTaken>()
+                .SubscribeToEvent<RemarkActionCanceled>()
                 .Build()
                 .Run();
         }
