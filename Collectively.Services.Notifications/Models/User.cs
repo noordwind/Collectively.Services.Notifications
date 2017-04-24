@@ -14,6 +14,7 @@ namespace Collectively.Services.Notifications.Models
         public string Role { get; set; }
         public string State { get; set; }
         public string ExternalUserId { get; set; }
+        public string Culture { get; set; }
         public DateTime CreatedAt { get; set; }
         public ISet<Guid> FavoriteRemarks { get; set; }
     }
