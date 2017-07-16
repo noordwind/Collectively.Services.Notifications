@@ -11,7 +11,7 @@ namespace Collectively.Services.Notifications
         static void Main(string[] args)
         {
             WebServiceHost
-                .Create<Startup>(port: 10007)
+                .Create<Startup>()
                 .UseAutofac(Bootstrapper.LifetimeScope)
                 .UseRabbitMq(queueName: typeof(Program).Namespace)
                 .SubscribeToCommand<UpdateUserNotificationSettings>()
