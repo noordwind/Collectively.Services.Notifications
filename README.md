@@ -1,28 +1,21 @@
 # Collectively.Services.Notifications
 
-####**Keep your commune clean in just a few clicks.**
-
 |Branch             |Build status                                                  
 |-------------------|-----------------------------------------------------
 |master             |[![master branch build status](https://api.travis-ci.org/noordwind/Collectively.Services.Notifications.svg?branch=master)](https://travis-ci.org/noordwind/Collectively.Services.Notifications)
 |develop            |[![develop branch build status](https://api.travis-ci.org/noordwind/Collectively.Services.Notifications.svg?branch=develop)](https://travis-ci.org/noordwind/Collectively.Services.Notifications/branches)
 
-**What is Collectively?**
+**Let's go for the better, Collectively​​.**
 ----------------
 
-Have you ever felt unhappy or even angry about the litter left on the streets or in the woods? Or the damaged things that should've been fixed a long time ago, yet the city council might not even be aware of them?
+**Collectively** is an open platform to enhance communication between counties and its residents​. It's made as a fully open source & cross-platform solution by [Noordwind](https://noordwind.com).
 
-**Collectively** is an open source & cross-platform solution that provides applications and a services made for all of the inhabitants to make them even more aware about keeping the community clean. 
-Within a few clicks you can greatly improve the overall tidiness of the place where you live in. 
-
-**Collectively** may help you not only to quickly submit a new remark about the pollution or broken stuff, but also to browse the already sent remarks and help to clean them up if you feel up to the task of keeping your neighborhood a clean place.
+Find out more at [becollective.ly](http://becollective.ly)
 
 **Collectively.Services.Notifications**
 ----------------
 
 The **Collectively.Services.Notifications** is a service responsible for handling all user notifications. Thanks to this service the users can decide if they want to be notified about remark updates.
-
-In order to access the available commands, events, DTOs and operation codes make use of the **Collectively.Messages** package.
 
 **Quick start**
 ----------------
@@ -38,22 +31,7 @@ git clone https://github.com/noordwind/Collectively.Docker
 ./start.sh
 ```
 
-Once executed, you shall be able to access the following services:
-
-|Name               |URL                                                  |Repository 
-|-------------------|-----------------------------------------------------|-----------------------------------------------------------------------------------------------
-|API                |[http://localhost:5000](http://localhost:5000)       |[Collectively.Api](https://github.com/noordwind/Collectively.Api) 
-|Mailing            |[http://localhost:10005](http://localhost:10005)     |[Collectively.Services.Mailing](https://github.com/noordwind/Collectively.Services.Mailing)
-|Medium             |[http://localhost:11100](http://localhost:11100)     |[Collectively.Services.Medium](https://github.com/noordwind/Collectively.Services.Medium) 
-|**Notifications**  |**[http://localhost:10007](http://localhost:10007)** |**[Collectively.Services.Notifications](https://github.com/noordwind/Collectively.Services.Notifications)** 
-|Operations         |[http://localhost:10000](http://localhost:10000)     |[Collectively.Services.Operations](https://github.com/noordwind/Collectively.Services.Operations)
-|Remarks            |[http://localhost:10002](http://localhost:10002)     |[Collectively.Services.Remarks](https://github.com/noordwind/Collectively.Services.Remarks)
-|SignalR            |[http://localhost:15000](http://localhost:15000)     |[Collectively.Services.SignalR](https://github.com/noordwind/Collectively.Services.SignalR) 
-|Statistics         |[http://localhost:10006](http://localhost:10006)     |[Collectively.Services.Statistics](https://github.com/noordwind/Collectively.Services.Statistics)
-|Storage            |[http://localhost:10000](http://localhost:10000)     |[Collectively.Services.Storage](https://github.com/noordwind/Collectively.Services.Storage) 
-|Supervisor         |[http://localhost:11000](http://localhost:11000)     |[Collectively.Services.Supervisor](https://github.com/noordwind/Collectively.Services.Supervisor)
-|Users              |[http://localhost:10001](http://localhost:10001)     |[Collectively.Services.Users](https://github.com/noordwind/Collectively.Services.Users) 
-|Web                |[http://localhost:9000](http://localhost:9000)       |[Collectively.Web](https://github.com/noordwind/Collectively.Web) 
+For the list of available services and their endpoints [click here](https://github.com/noordwind/Collectively).
 
 ## Classic way
 
@@ -68,10 +46,10 @@ Clone the repository and start the application via *dotnet run* command:
 git clone https://github.com/noordwind/Collectively.Services.Notifications
 cd Collectively.Services.Notifications/Collectively.Services.Notifications
 dotnet restore --source https://api.nuget.org/v3/index.json --source https://www.myget.org/F/collectively/api/v3/index.json --no-cache
-dotnet run
+dotnet run --urls "http://*:10005"
 ```
 
-Now you should be able to access the service under the [http://localhost:10007](http://localhost:10007). 
+Once executed, you shall be able to access the service at [http://localhost:10005](http://localhost:10005)
 
 Please note that the following solution will only run the Notifications Service which is merely one of the many parts required to run properly the whole Collectively system.
 
