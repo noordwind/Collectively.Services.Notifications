@@ -1,9 +1,19 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <AssemblyTitle>Collectively.Services.Notifications</AssemblyTitle>
     <TargetFramework>netcoreapp1.1</TargetFramework>
+    <AssemblyName>Collectively.Services.Notifications</AssemblyName>
+    <OutputType>Exe</OutputType>
+    <PackageId>Collectively.Services.Notifications</PackageId>
+    <RuntimeFrameworkVersion>1.1.1</RuntimeFrameworkVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="nlog.config">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Collectively.Common" Version="1.0.*" />
@@ -33,12 +43,6 @@
     <PackageReference Include="RawRabbit.vNext" Version="1.10.3" />
     <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
     <PackageReference Include="System.Runtime.Extensions" Version="4.3.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="nlog.config">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </None>
   </ItemGroup>
 
 </Project>
