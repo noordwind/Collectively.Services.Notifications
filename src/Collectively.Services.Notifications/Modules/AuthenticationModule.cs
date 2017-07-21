@@ -17,7 +17,7 @@ namespace Collectively.Services.Notifications.Modules
                     return HttpStatusCode.Unauthorized;
                 }
 
-                return new { token = token.Value };
+                return token.Value;
             });
         }
     }
