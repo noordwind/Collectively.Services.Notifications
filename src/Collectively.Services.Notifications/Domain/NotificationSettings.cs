@@ -16,7 +16,7 @@
             => new NotificationSettings
             {
                 Enabled = true,
-                RemarkCreated = true,
+                RemarkCreated = false,
                 RemarkCanceled = true,
                 RemarkDeleted = true,
                 RemarkProcessed = true,
