@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using Collectively.Common.ServiceClients;
 using Collectively.Common.Types;
 using Collectively.Services.Notifications.Models;
-using NLog;
+using Serilog;
 
 namespace Collectively.Services.Notifications.ServiceClients
 {
     public class RemarkServiceClient : IRemarkServiceClient
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = Log.Logger;
         private readonly IServiceClient _serviceClient;
         private readonly string _name;
 

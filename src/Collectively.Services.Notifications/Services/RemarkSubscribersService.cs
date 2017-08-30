@@ -3,13 +3,13 @@ using System.Threading.Tasks;
 using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Repositories;
-using NLog;
+using Serilog;
 
 namespace Collectively.Services.Notifications.Services
 {
     public class RemarkSubscribersService : IRemarkSubscribersService
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = Log.Logger;
         private readonly IRemarkSubscribersRepository _repository;
 
         public RemarkSubscribersService(IRemarkSubscribersRepository repository)

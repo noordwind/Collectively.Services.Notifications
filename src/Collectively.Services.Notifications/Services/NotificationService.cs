@@ -6,13 +6,13 @@ using Collectively.Common.Types;
 using Collectively.Services.Notifications.Domain;
 using Collectively.Services.Notifications.Models;
 using Collectively.Services.Notifications.ServiceClients;
-using NLog;
+using Serilog;
 
 namespace Collectively.Services.Notifications.Services
 {
     public class NotificationService : INotificationService
     {
-        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly ILogger Logger = Log.Logger;
         private readonly IRemarkServiceClient _remarkServiceClient;
         private readonly IRemarkSubscribersService _subscribersService;
         private readonly IUserNotificationSettingsService _userNotificationSettingsService;
