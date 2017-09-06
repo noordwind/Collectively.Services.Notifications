@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Structure.Sketching.Formats.Gif.Format;
 
 namespace Collectively.Services.Notifications.Models
 {
