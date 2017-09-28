@@ -36,8 +36,10 @@ namespace Collectively.Services.Notifications.Handlers
                 {
                     var user = await _userServiceClient.GetAsync(@event.UserId);
                     if (user.HasNoValue)
+                    {
                         throw new ServiceException(OperationCodes.ResourceNotFound,
                             $"User with id: {@event.UserId} cannot be found");
+                    }
                     var culture = GetCulture(user.Value.Culture);
                     var settings = UserNotificationSettings.Create(@event.UserId, 
                         user.Value.Email, user.Value.Name, culture);

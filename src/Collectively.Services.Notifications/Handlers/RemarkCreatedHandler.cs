@@ -31,7 +31,7 @@ namespace Collectively.Services.Notifications.Handlers
                 })
                 .OnError((ex, logger) =>
                 {
-                    logger.Error(ex, $"Error occured while handling {@event.GetType().Name} event");
+                    logger.Error(ex, $"Error occured while handling {@event.GetType().Name} event.");
                 })
                 .ExecuteAsync();
         }
